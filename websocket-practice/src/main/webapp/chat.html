@@ -1,0 +1,109 @@
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico?">
+    <title>ChatApp</title>
+</head>
+
+<body style="background-color: #2b3035">
+<div class="row text-center">
+    <div id="chat-area" class="container-fluid">
+    </div>
+    
+    <div class="container-xxl">
+        <div class="input-group justify-content-center" style="bottom: 5px; position: fixed;">
+            <input id="input-message"
+                   type="text"
+                   class="form-control bg-dark text-white"
+                   placeholder="Enter a message"
+                   aria-label="Enter a message"
+                   aria-describedby="button-send">
+
+            <div class="input-group-prepend">
+                <button id="button-send-message"
+                        type="button"
+                        class="btn btn-outline-secondary">
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script src="js/sockjs.js"></script>
+<script src="js/stomp.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bubble.css">
+<script type="text/javascript">
+    const CHAT_DESTINATION = "/app/chat";
+    const CHAT_ENDPOINT = "/chat";
+    const CHAT_MESSAGES_TOPIC = "/topic/chat-messages";
+    let stompClient = Stomp.over(new SockJS(CHAT_ENDPOINT));
+
+    $(document).ready(function () {
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe(CHAT_MESSAGES_TOPIC, function (message) {
+                showMessage(JSON.parse(message.body));
+            });
+
+            console.log('Connected: ' + frame);
+        });
+
+    });
+
+    $('#input-message').keypress(function (event) {
+        if (event.which === 13) {
+            sendMessage();
+        }
+    });
+
+    $('#button-send-message').click(function () {
+        sendMessage();
+    });
+
+    function sendMessage() {
+        let $input = $('input[id="input-message"]');
+        
+        
+        stompClient.send(CHAT_DESTINATION, {},
+            JSON.stringify(
+                {
+                    'from': 'asd', // TODO: FIXME
+                    'text': $input.val(),
+                    'date': new Date().toDateString(),
+                    'time': new Date().toTimeString()
+                }
+            )
+        );
+
+        $input.val("");
+    }
+    
+    function showMessage(message) {
+        let htmlContent =
+            "<div class='speech-wrapper'>" 
+            +   "<div class='bubble'>"
+            +       "<div class='txt'>"
+            +           "<p class='name'>" + message.from + "</p>"
+            +           "<p class='message'>" + message.text + "</p>"
+            +           "<span class='timestamp'>" + message.time.substring(0, 5) + "</span>"
+            +       "</div>"
+            +       "<div class='bubble-arrow'></div>"
+            +   "</div>"
+            +   "<div class='bubble alt'>"
+            +       "<div class='txt'>"
+            +           "<p class='name alt'>You</p>"
+            +           "<p class='message'>" + message.text + "</p>"
+            +           "<span class='timestamp'>" + message.time.substring(0, 5) + "</span>"
+            +       "</div>"
+            +       "<div class='bubble-arrow alt'></div>"
+            +   "</div>"
+            + "</div>"
+        
+        $('#chat-area').append(htmlContent);
+    }
+</script>
