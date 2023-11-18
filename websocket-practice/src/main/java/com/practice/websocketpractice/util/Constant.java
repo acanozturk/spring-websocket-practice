@@ -24,6 +24,8 @@ public class Constant {
 
         public final String CHAT = "/chat";
 
+        public final String JOIN = "/join";
+
     }
 
     @UtilityClass
@@ -31,7 +33,7 @@ public class Constant {
 
         public final String TOPIC_PREFIX = "/topic";
 
-        public final String CHAT_MESSAGES = TOPIC_PREFIX + "/chat-messages";
+        public final String CHAT = TOPIC_PREFIX + "/chat";
 
     }
 

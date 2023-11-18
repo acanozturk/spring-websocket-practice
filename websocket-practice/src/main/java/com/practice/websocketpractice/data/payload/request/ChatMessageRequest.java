@@ -1,5 +1,15 @@
 package com.practice.websocketpractice.data.payload.request;
 
-public record ChatMessageRequest(String from, String text) {
-    
+import com.practice.websocketpractice.data.enumeration.ChatMessageType;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public final class ChatMessageRequest {
+
+    private String sender;
+    private String content;
+    private ChatMessageType chatMessageType;
+
 }

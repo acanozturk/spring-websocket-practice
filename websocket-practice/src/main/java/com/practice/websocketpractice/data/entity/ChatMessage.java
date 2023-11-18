@@ -1,5 +1,6 @@
 package com.practice.websocketpractice.data.entity;
 
+import com.practice.websocketpractice.data.enumeration.ChatMessageType;
 import com.practice.websocketpractice.util.Constant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,10 +15,10 @@ public final class ChatMessage extends AuditedEntity {
     @Id
     private String id;
     
-    private String from;
+    private String sender;
     
-    private String to;
+    private String content;
     
-    private String text;
+    private ChatMessageType chatMessageType;
     
 }

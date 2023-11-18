@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico?">
+    <title>ChatApp</title>
+</head>
+
+<body style="background-color: #2b3035">
+<div id="username-page">
+    <div class="username-page-container">
+        <div>
+            <img src="images/chat.png" alt="chat_png" style="height:50px; width: auto">
+        </div>
+
+        <h1 class="title">Welcome to ChatApp</h1>
+
+        <form id="usernameForm" name="usernameForm">
+            <div class="form-group">
+                <div class="input-group mb-4 justify-content-center">
+                    <div class="input-group-prepend">
+                        <span id="addon-at" class="input-group-text bg-dark text-white">@</span>
+                    </div>
+
+                    <input id="name"
+                           type="text"
+                           class="form-control-sm col-sm-8 text-center bg-dark text-white"
+                           maxlength="10"
+                           placeholder="Username (max 10 characters)"
+                           aria-label="Username"
+                           autocomplete="off"
+                           aria-describedby="addon-at">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-success">Start Chatting</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="chat-page" class="hidden">
+    <div class="chat-container">
+        <ul id="messageArea"></ul>
+
+        <form id="messageForm" name="messageForm" nameForm="messageForm">
+            <div class="form-group">
+                <div class="input-group clearfix">
+                    <input id="message"
+                           type="text"
+                           class="form-control"
+                           placeholder="Write a message"
+                           autocomplete="off"
+                           aria-label="Message"/>
+                    
+                    <button type="submit" class="btn btn-outline-primary">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script src="js/chat.js"></script>
+<script src="js/sockjs.js"></script>
+<script src="js/stomp.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/chat.css">
