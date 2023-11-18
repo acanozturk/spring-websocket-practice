@@ -207,6 +207,15 @@ a {
     font-weight: 500;
 }
 
+.connecting {
+    padding-top: 5px;
+    text-align: center;
+    color: #777;
+    position: absolute;
+    top: 65px;
+    width: 100%;
+}
+
 @media screen and (max-width: 730px) {
 
     .chat-container {
@@ -242,6 +251,10 @@ a {
 
     .chat-header {
         padding: 10px;
+    }
+
+    .connecting {
+        top: 60px;
     }
 
     .chat-header h2 {

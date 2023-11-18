@@ -14,7 +14,7 @@ public class DateTimeUtil {
     }
 
     public String getCurrentTime() {
-        return LocalTime.now().toString();
+        return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
     
 }

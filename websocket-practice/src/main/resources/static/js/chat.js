@@ -1,9 +1,9 @@
 'use strict';
 
 const CHAT_DESTINATION = "/app/chat";
-const JOIN_DESTINATION = "/app/join";
 const CHAT_ENDPOINT = "/chat";
 const CHAT_TOPIC = "/topic/chat";
+const JOIN_DESTINATION = "/app/join";
 const COLORS = [
     '#2196F3',
     '#32c787',
@@ -21,6 +21,7 @@ let usernameForm = document.querySelector('#usernameForm');
 let messageForm = document.querySelector('#messageForm');
 let messageInput = document.querySelector('#message');
 let messageArea = document.querySelector('#messageArea');
+let connectingElement = document.querySelector('.connecting');
 
 let stompClient = null;
 let username = null;
@@ -49,14 +50,16 @@ function onConnected() {
 
     let joinMessage = {
         sender: username,
-        type: 'JOIN'
+        chatMessageType: 'JOIN'
     };
 
     stompClient.send(
         JOIN_DESTINATION,
         {},
         JSON.stringify(joinMessage)
-    )
+    );
+
+    connectingElement.classList.add('hidden');
 }
 
 function send(event) {
@@ -66,7 +69,7 @@ function send(event) {
         let chatMessage = {
             sender: username,
             content: messageInput.value,
-            type: 'CHAT_MESSAGE'
+            chatMessageType: 'CHAT_MESSAGE'
         };
 
         stompClient.send(
@@ -86,10 +89,10 @@ function onMessageReceived(payload) {
     let message = JSON.parse(payload.body);
     let messageElement = document.createElement('li');
 
-    if (message.type === 'JOIN') {
+    if (message.chatMessageType === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
-    } else if (message.type === 'LEAVE') {
+    } else if (message.chatMessageType === 'LEAVE') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
     } else {
@@ -125,9 +128,8 @@ function getAvatarColor(messageSender) {
     for (let index = 0; index < messageSender.length; index++) {
         hash = 31 * hash + messageSender.charCodeAt(index);
     }
-
-    let index = Math.abs(hash % COLORS.length);
-    return COLORS[index];
+    
+    return COLORS[Math.abs(hash % COLORS.length)];
 }
 
 usernameForm.addEventListener('submit', connect, true)

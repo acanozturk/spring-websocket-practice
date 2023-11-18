@@ -19,8 +19,8 @@ public class ChatController {
 
     @MessageMapping(Constant.Endpoint.JOIN)
     @SendTo(Constant.Topic.CHAT)
-    public ChatMessageResponse joinRoom(@Payload final ChatMessageRequest chatMessageRequest,
-                                        final SimpMessageHeaderAccessor headerAccessor) {
+    public ChatMessageResponse join(@Payload final ChatMessageRequest chatMessageRequest,
+                                    final SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", chatMessageRequest.getSender());
         return chatService.sendMessage(chatMessageRequest);
     }
